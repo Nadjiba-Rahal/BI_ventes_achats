@@ -122,19 +122,19 @@ def th(fig, legend=False):
         plot_bgcolor="#ffffff",
         paper_bgcolor="rgba(0,0,0,0)",
         font=dict(family="Inter", color="#374151", size=12),
-        margin=dict(l=8, r=8, t=40, b=8),
+        margin=dict(l=8, r=8, t=44, b=50 if legend else 8),
         colorway=C,
         showlegend=legend,
         legend=dict(
-            bgcolor="#ffffff",
+            bgcolor="rgba(255,255,255,0.95)",
             bordercolor="#e5e7eb",
             borderwidth=1,
             font=dict(size=11, color="#374151"),
             orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            xanchor="left",
-            x=0,
+            yanchor="top",
+            y=-0.22,
+            xanchor="center",
+            x=0.5,
         ) if legend else {},
         title_font=dict(size=13, color="#374151", family="Inter"),
     )
@@ -174,9 +174,8 @@ def load_marges():
     achats["pu_achat"] = achats["montant_ht"] / achats["qte"]
 
     pu_achat_avg = (
-        achats.sort_values("date_cmd")
-        .groupby("code_produit")["pu_achat"]
-        .first().reset_index()
+        achats.groupby("code_produit")["pu_achat"]
+        .min().reset_index()
         .rename(columns={"pu_achat": "pu_achat_moy"})
     )
     # INK.0004 same product as INK.0034
