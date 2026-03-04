@@ -174,8 +174,9 @@ def load_marges():
     achats["pu_achat"] = achats["montant_ht"] / achats["qte"]
 
     pu_achat_avg = (
-        achats.groupby("code_produit")["pu_achat"]
-        .min().reset_index()
+        achats.sort_values("date_cmd")
+        .groupby("code_produit")["pu_achat"]
+        .first().reset_index()
         .rename(columns={"pu_achat": "pu_achat_moy"})
     )
     # INK.0004 same product as INK.0034
